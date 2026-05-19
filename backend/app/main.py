@@ -24,7 +24,6 @@ def get_db_connection():
         database="college_db"
     )
 
-# ✅ Auto create tables on startup
 @app.on_event("startup")
 def create_tables():
     conn = get_db_connection()
@@ -68,8 +67,6 @@ def create_tables():
     conn.close()
 
 
-# ==================== MODELS ====================
-
 class LoginRequest(BaseModel):
     teacher_id: str
     dob: str
@@ -95,8 +92,6 @@ class MarkEntry(BaseModel):
     subject_id: int
     marks: int
 
-
-# ==================== TEACHER LOGIN ====================
 
 @app.post("/login")
 def teacher_login(data: LoginRequest):
@@ -131,8 +126,6 @@ def teacher_login(data: LoginRequest):
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 
-# ==================== STUDENT LOGIN ====================
-
 @app.post("/student/login")
 def student_login(data: StudentLoginRequest):
     try:
@@ -166,9 +159,6 @@ def student_login(data: StudentLoginRequest):
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 
-# ==================== STUDENT CRUD ====================
-
-# Add Student
 @app.post("/students")
 def add_student(data: StudentCreate):
     try:
@@ -187,7 +177,6 @@ def add_student(data: StudentCreate):
     except mysql.connector.Error as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
-# Get All Students
 @app.get("/students")
 def get_students():
     conn = get_db_connection()
@@ -201,7 +190,7 @@ def get_students():
     conn.close()
     return {"success": True, "students": students}
 
-# Update Student
+
 @app.put("/students/{student_id}")
 def update_student(student_id: str, data: StudentUpdate):
     try:
@@ -231,7 +220,7 @@ def update_student(student_id: str, data: StudentUpdate):
     except mysql.connector.Error as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
-# Delete Student
+
 @app.delete("/students/{student_id}")
 def delete_student(student_id: str):
     try:
@@ -246,9 +235,6 @@ def delete_student(student_id: str):
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 
-# ==================== SUBJECTS ====================
-
-# Get all subjects
 @app.get("/subjects")
 def get_subjects():
     conn = get_db_connection()
@@ -260,9 +246,6 @@ def get_subjects():
     return {"success": True, "subjects": subjects}
 
 
-# ==================== MARKS ====================
-
-# Add / Update Mark
 @app.post("/marks")
 def add_mark(data: MarkEntry):
     try:
@@ -281,7 +264,6 @@ def add_mark(data: MarkEntry):
     except mysql.connector.Error as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
-# Get marks by student
 @app.get("/marks/{student_id}")
 def get_marks(student_id: str):
     conn = get_db_connection()
