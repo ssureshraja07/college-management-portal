@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
-import TeacherDashboard from "./pages/TeacherDashboard";
-import StudentDashboard from "./pages/StudentDashboard";
+import TeacherDashboard from "./pages/TeacherDashboard.jsx";
+import StudentDashboard from "./pages/StudentDashboard.jsx";
 
 // Route guard
 function PrivateRoute({ children, role }) {
